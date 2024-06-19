@@ -1,10 +1,12 @@
 
 import React from "react";
-import { SafeAreaView, FlatList, ScrollView, StyleSheet, Text, View, TextInput, Pressable } from "react-native";
+import { SafeAreaView, FlatList, ScrollView, StyleSheet, Text, View, TextInput, Pressable, Image } from "react-native";
 import FeaturedCard from "./components/FeaturedCard";
+import PopularCard from "./components/PopularCard";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function HomeScreen(){
+export default function HomeScreen({route}){
+    const { name, email } = route.params;
 
     const cardData = [
         { 
@@ -83,9 +85,111 @@ export default function HomeScreen(){
         },
       
     ]
+
+    const PopularData = [
+        {
+            id: '1',
+            logo: require('./assets/burgerking.png') ,
+            Position: 'Jr Executive',
+            Company: 'Burgar King',
+            Location: 'Los Angeles, US',
+            Salary: '$96,000/yr',
+        },
+        {
+            id: '2',
+            Position: 'Product Manager',
+            logo: require('./assets/beats.png'),
+            Company: 'Beats',
+            Location: 'Florida, US',
+            Salary: '$84,000/yr',
+        },
+        {
+            id: '3',
+            Position: 'Product Manager',
+            logo: require('./assets/facebook.png'),
+            Company: 'Facebook',
+            Location: 'Florida, US',
+            Salary: '$86,000/yr',
+        },
+       
+        
+        {
+            id:'4',
+            Position: 'Product Manager',
+            logo: require('./assets/microsoft.png'),
+            Company: 'Microsoft',
+            Location: 'Florida, US',
+            Salary: '$92,000/yr',
+        },
+        {
+            id: '5',
+            Position: 'Sr Executive',
+            logo: require('./assets/intel.png'),
+            Company: 'Intel',
+            Location: 'New York, US',
+            Salary: '$100,000/yr',
+        },
+        {
+            id:'6',
+            Position: 'Jr Developer',
+            logo: require('./assets/google.png'),
+            Company: 'Google',
+            Location: 'San Francisco, US',
+            Salary: '$120,000/yr',
+        },
+        {
+            id: '7',
+            Position: 'Sr Developer',
+            Company: 'Facebook',
+            logo: require('./assets/facebook.png'),
+            Location: 'San Jose, US',
+            Salary: '$130,000/yr',
+        },
+        {
+            id: '8',
+            Position: 'Jr Designer',
+            Company: 'Apple',
+            logo: require('./assets/apple.png'),
+            Location: 'Cupertino, US',
+            Salary: '$110,000/yr',
+        },
+        {
+            id: '9',
+            Position: 'Sr Designer',
+            Company: 'Microsoft',
+            logo: require('./assets/microsoft.png'),
+            Location: 'Redmond, US',
+            Salary: '$140,000/yr',
+        },
+        {
+            id:'10',
+            Position: 'Jr Engineer',
+            Company: 'IBM',
+            logo: require('./assets/IBM.png'),
+            Location: 'Armonk, US',
+            Salary: '$150,000/yr',
+        },
+        {
+            id: '11',
+            Position: 'Sr Engineer',
+            Company: 'Intel',
+            logo: require('./assets/intel.png'),
+            Location: 'Santa Clara, US',
+            Salary: '$160,000/yr',
+        },
+
+    ]
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
+            <View style={styles.ProfileView}>
+                <Text style={styles.ProfileName}>{name}</Text>
+                <Text style={styles.ProfileEmail}>{email}</Text>
+            </View>
+            
+            <Image source={require('./assets/Profile.png')} style={styles.Profile} />
+            <View style={styles.activestatus}></View>
+
             <View style={styles.topBar}>
             <View style= {styles.searchArea}>
                 <TextInput style={styles.searchText} 
@@ -101,6 +205,7 @@ export default function HomeScreen(){
                 
             </View>
             <Text style={styles.text}>Featured Jobs</Text>
+            <Text style={styles.seeAll}>See all</Text>
             <View style={styles.FlatList}>
             <FlatList 
             data={cardData}
@@ -119,8 +224,31 @@ export default function HomeScreen(){
         keyExtractor={item => item.id}
             
             />
+            </View>
 
+            <View style={styles.FlatListBottom}>
+                <Text style={styles.Popular}>Popular Jobs</Text>
+                <Text style={styles.seeAll2}>See all</Text>
+            <FlatList
+            data={PopularData}
+            Vertical
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+                <PopularCard
+                Position={item.Position}
+                Company ={item.Company}
+                Salary={item.Salary}
+                Location={item.Location}
+                logo={item.logo}
+                />
+
+            )}
+            keyExtractor={item => item.id}
+            
+            
+            />
 </View>
+
 
 
             </ScrollView>
@@ -136,14 +264,51 @@ const styles = StyleSheet.create({
       width: '100%',
       height: '100%',
       justifyContent: 'center',
-      backgroundColor: '#F4FDFF',
+      backgroundColor: '#FFFFFF',
     },
+    ProfileView:{
+        flex:1,
+        width: '100%',
+    },
+    activestatus:{
+        borderColor: 'white',
+        borderWidth: 2,
+        width: 15,
+        height: 15,
+        borderRadius: 50,
+        backgroundColor: 'red',
+        bottom: 60,
+        left: 350,
+    },
+    Profile:{
+        width: 50,
+        height: 50,
+        borderRadius: 50,
+        bottom: 16,
+        left: 313,
+    },
+    ProfileName:{
+        fontSize: 35,
+        fontWeight: '800',
+        color: 'black',
+        top: 30,
+        left: 30,
+    },
+    ProfileEmail:{
+        fontSize: 19,
+        color: 'black',
+        fontWeight: 'bold',
+        opacity: 0.4,
+        top: 30,
+        left: 30,
+    },
+
     topBar: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       padding: 20,
-      top: 70,
-      backgroundColor: '#F4FDFF',
+      top: 15,
+      backgroundColor: 'white',
     },
     searchArea: {
       flexDirection: 'row',
@@ -176,23 +341,52 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
+        right: 5,
         },
     text: {
-      fontSize: 18,
-      top: 80,
+      fontSize: 20,
+      top: 30,
       left: 20,
       color: 'black',
       fontWeight: 'bold',
     },
+    seeAll: {
+      fontSize: 15,
+      top: 10,
+      left: 320,
+      color: 'black',
+      opacity: 0.3,
+      fontWeight: 'bold',
+    },
+    seeAll2: {
+        fontSize: 15,
+        bottom:30,
+        left: 320,
+        color: 'black',
+        opacity: 0.3,
+        fontWeight: 'bold',
+      },
     FlatList: {
       flex: 1,
       height: 300,
       width: '100%',
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: 90,
+      marginTop: 30,
       marginLeft: 10,
 
     },
+    Popular:{
+        fontSize: 20,
+        fontWeight: 'bold',
+        left: 20,
+        bottom: 13
+    },
+    FlatListBottom:{
+        flex:1,
+        height: '100%',
+        width: 500,
+        marginTop: -40,
+    }
 
 })

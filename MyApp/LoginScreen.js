@@ -7,7 +7,7 @@ export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
 
   const handleLogin = () => {
-    navigation.navigate('HomeScreen');
+    navigation.navigate('HomeScreen', { name: name, email: email });
   };
 
   return (
